@@ -17,6 +17,7 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: zenefitstest_development
   pool: 5
   password:

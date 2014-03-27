@@ -1,3 +1,30 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// h1 {
+//   color: red;
+// }
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#no_zip_match {
+  background-color: red;
+  text-align: center;
+  padding: 5px;
+  h3 {
+    margin: 0;
+  }
+}
+
+.label {
+  display: block;
+}
+
+.form_field {
+  margin-bottom: 10px;
+}

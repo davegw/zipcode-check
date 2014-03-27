@@ -3,7 +3,15 @@ Zenefitstest::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
+  root 'locations#new'
+
+  resources :locations, :only => [:create]
+  match 'location/new' => 'locations#new', :via => :get, :as => :new_location
+
+
+  # resources :users, :only => [:create]
+  # match '/user/new' => 'users#new', :via => :get, :as => :new_user
+  # match '/users/check_email' => 'users#check_email', :via => :get, :as => :check_email
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
