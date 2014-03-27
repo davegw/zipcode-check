@@ -7,6 +7,7 @@ Zenefitstest::Application.routes.draw do
 
   resources :locations, :only => [:create]
   match 'location/new' => 'locations#new', :via => :get, :as => :new_location
+  match 'location/success' => 'locations#success', :via => :get, :as => :success
 
 
   # resources :users, :only => [:create]
