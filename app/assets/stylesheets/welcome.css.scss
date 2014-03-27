@@ -2,10 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-// h1 {
-//   color: red;
-// }
-
 .field_with_errors {
   padding: 2px;
   background-color: red;
@@ -27,4 +23,32 @@
 
 .form_field {
   margin-bottom: 10px;
+}
+
+input#location_address,
+input#location_city {
+  width: 200px;
+}
+input#location_state,
+input#location_zipcode {
+  width: 50px;
+}
+
+#input_address,
+#verified_address {
+  display: inline-block;
+  h3 {
+    margin: 10px 0 0 0;
+  }
+}
+#verified_address {
+  margin-left: 50px;
+}
+#new_search {
+  margin-top: 30px;
+}
+#success_container {
+  h1 {
+    color: green;
+  }
 }

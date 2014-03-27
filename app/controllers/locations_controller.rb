@@ -11,7 +11,8 @@ class LocationsController < ApplicationController
       address = @location.address
       city = @location.city
       state = @location.state
-      result = Geokit::Geocoders::GoogleGeocoder.geocode("#{address}, #{city}, #{state}")
+      query = "#{address}, #{city}, #{state}"
+      result = Geokit::Geocoders::GoogleGeocoder.geocode(query)
       result_zipcode = result.zip
       # Check if we got any search results.
       if result_zipcode.nil?
@@ -20,14 +21,14 @@ class LocationsController < ApplicationController
       # CHeck if our result matches the input.
       elsif @location.zipcode == result_zipcode
         @location.save
-        redirect_to success_path
+        redirect_to success_path(:location => @location.id, :result => query)
       # Check if we got more than one search result.
       elsif result.all.count > 1
         flash.alert = "Zip code does not match. Multiple addresses returned. Please be more specific."
         render 'new'
       else
         flash.alert = "Zip code does not match."
-        redirect_to new_location_path
+        render 'new'
       end
     else
       render 'new'
@@ -35,5 +36,7 @@ class LocationsController < ApplicationController
   end
 
   def success
+    @location = Location.find(params[:location])
+    @result = Geokit::Geocoders::GoogleGeocoder.geocode(params[:result])
   end
 end

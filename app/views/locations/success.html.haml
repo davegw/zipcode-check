@@ -1,2 +1,30 @@
-%h1
-  Address Successfully Verified!
+#success_container
+  %h1
+    Address Successfully Verified!
+
+  #input_address
+    %h3
+      Input Address
+    .address
+      = @location.address.upcase
+    .city
+      #{@location.city.upcase},
+      %span.state
+        = @location.state.upcase
+      %span.zipcode
+        = @location.zipcode
+
+  #verified_address
+    %h3
+      Verified Address
+    .address
+      = @result.street_address
+    .city
+      #{@result.city},
+      %span.state
+        = @result.state
+      %span.zipcode
+        = @result.zip
+
+  #new_search
+    = link_to "New Search", new_location_path
