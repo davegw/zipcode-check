@@ -1,0 +1,39 @@
+#errors_container
+  - if flash[:alert]
+    #no_zip_match
+      %h3
+        = flash[:alert]
+  - if @location.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@location.errors.count, "error")
+        stopped this search from running:
+   
+      %ul
+        - @location.errors.full_messages.each do |msg|
+          %li
+            = msg
+%h1
+  Address Checker
+#location_form
+  = form_for @location, :url => locations_path do |f|
+    .address.form_field
+      = f.label 'address', 'Address:', :class => "label"
+      = f.text_field :address, :placeholder => "123 Fake St."
+    .city.form_field
+      = f.label 'city', 'City:', :class => "label"
+      = f.text_field :city, :placeholder => "Metropolis"
+    .state.form_field
+      = f.label 'state', 'State (2 letter postal code):', :class => "label"
+      = f.text_field :state, :placeholder => "CA", :maxlength => 2
+    .zipcode.form_field
+      = f.label 'zipcode', 'Zip Code (5 digit code):', :class => "label"
+      = f.text_field :zipcode, :placeholder => "12345", :maxlength => 5
+    .submit.form_field
+      = f.submit "Submit"
+
+.new_search
+  = link_to "New Basic Search", new_location_path
+
+.new_search
+  = link_to "New Javascript Search", new_location_js_path

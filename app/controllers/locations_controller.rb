@@ -3,6 +3,10 @@ class LocationsController < ApplicationController
     @location = Location.new
   end
 
+  def new_js
+    @location = Location.new
+  end
+
   def create
     @location = Location.new(:address => params[:location][:address].downcase, :city => params[:location][:city].downcase, :state => params[:location][:state].downcase, :zipcode => params[:location][:zipcode])
     @location.errors.clear
@@ -33,6 +37,36 @@ class LocationsController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def search_request
+    location_errors =[]
+    zip_errors =[]
+    location_id = []
+    address = params[:address]
+    city = params[:city]
+    state = params[:state]
+    zipcode = params[:zipcode]
+    location = Location.new(:address => address, :city => city, :state => state, :zipcode => zipcode)
+    if location.valid?
+      query = "#{address}, #{city}, #{state}"
+      result = Geokit::Geocoders::GoogleGeocoder.geocode(query)
+      if result.zip.nil?
+        zip_errors = "No zip code found for that address."
+      elsif zipcode == result.zip
+        location.save
+        location_id = location.id
+      elsif result.all.count > 1
+        zip_errors = "Zip code does not match. Multiple addresses returned. Please be more specific."
+      else
+        zip_errors = "Zip code does not match."
+      end
+    else
+      location.errors.full_messages.each do |msg|
+        location_errors << msg
+      end
+    end
+    render :json => { :success => (location_errors.empty? && zip_errors.empty?), :errors => location_errors, :zip_errors => zip_errors, :query => query, :location_id => location_id }
   end
 
   def success

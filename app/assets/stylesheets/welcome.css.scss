@@ -44,11 +44,15 @@ input#location_zipcode {
 #verified_address {
   margin-left: 50px;
 }
-#new_search {
+.new_search {
   margin-top: 30px;
 }
 #success_container {
   h1 {
     color: green;
   }
+}
+label.error {
+  color: blue;
+  margin-left: 10px;
 }
