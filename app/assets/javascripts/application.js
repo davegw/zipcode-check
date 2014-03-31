@@ -15,12 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-// $(function() {
-//   $('h1').click(function() {
-//     $(this).hide();
-//   });
-// });
-
 $(function() {
   $("#new_location_js_container #new_location").validate({
     debug: true,
@@ -46,13 +40,13 @@ $(function() {
 $(function() {
   $('#new_location_js_container .submit input[type="submit"]').click(function(e) {
     e.preventDefault();
+    $('#errors_container').empty();
     var address = $('#location_address').val();
     var city = $('#location_city').val();
     var state = $('#location_state').val();
     var zipcode = $('#location_zipcode').val();
     $.ajax({
       url: '/location/request',
-      // url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + ',' + city + ',' + state + '&sensor=true&key=AIzaSyBHB-4XsqFcIYYhid36PjMj5YJwkiFYy7Y/',
       data: {'address': address, 'city': city, 'state': state, 'zipcode': zipcode},
       type: 'GET',
       success: function(response) {
@@ -60,14 +54,13 @@ $(function() {
           $('#new_location_js_container').load('/location/success', { "result" : response.query, "location" : response.location_id})
         }
         else if (response.errors.length > 0) {
-          $('#errors_container').empty();
           var i;
           for (i=0; i<response.errors.length; ++i) {
-            $('#errors_container').append("<li>"+response.errors[i]+"</li>");
+            $('#errors_container').append("<li class='red_text'>"+response.errors[i]+"</li>");
           }
         }
         else {
-          $('#errors_container').text(response.zip_errors);
+          $('#errors_container').append("<h3 id='no_zip_match'>"+response.zip_errors+"</li");
         }
       }
     });
